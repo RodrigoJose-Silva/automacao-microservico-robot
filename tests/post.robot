@@ -1,17 +1,7 @@
 *** Settings ***
 Documentation          POST /partners
 
-Library                RequestsLibrary
-Library                RobotMongoDBLibrary.Delete
-
-*** Variables ***
-${BASE_URL}         http://localhost:3333
-${PATH_POST}        /partners
-
-&{MONGO_URI}        connection=mongodb+srv://bugereats:0RqnozfFfxZ5TQXg@cluster0.zvgplqx.mongodb.net/PartnerDB?retryWrites=true&w=majority
-...                 database=PartnerDB
-...                 collection=partner
-
+Resource            ${EXECDIR}/resources/base.robot  # aponta a variável da aplicação e seu path
 
 *** Test Cases ***
 
@@ -32,6 +22,7 @@ Shoud create a new partner
     ${FILTER}        Create Dictionary
     ...              name=Pizzas Papito
 
+    # deleta o cadastro no MongoDB, a ponto de deixar a automação passando cada vez que executar o POST com o mesmo PAYLOAD
     DeleteOne            ${MONGO_URI}        ${FILTER}     
 
     ${REPONSE}            POST On Session
@@ -42,3 +33,9 @@ Shoud create a new partner
     ...                   expected_status=any
 
     Status Should Be        201      
+    
+    # consulta no BD o valor da variável FILTER
+    ${RESULTS}     Find    ${MONGO_URI}    ${FILTER}
+
+    # valida o (PK) 'id' da request é o mesmo no BD
+    Should Be Equal        ${REPONSE.json()}[partner_id]      ${RESULTS}[0][_id]  
