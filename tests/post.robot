@@ -13,29 +13,16 @@ Shoud create a new partner
     ...               email=contato01@papito.com.br
     ...               whatsapp=11999999999
     ...               business=Restaurante
+    Remove Partner By Name        Pizzas Papito   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
 
-    ${HEADER}            Create Dictionary
-    ...                  Content-Type=application/json
-    ...                  auth_user=qa
-    ...                  auth_password=ninja
+   
+    ### AÇÃO
+    ${RESPONSE}        Post Partner        ${PAYLOAD}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
 
-    ${FILTER}        Create Dictionary
-    ...              name=Pizzas Papito
-
-    # deleta o cadastro no MongoDB, a ponto de deixar a automação passando cada vez que executar o POST com o mesmo PAYLOAD
-    DeleteOne            ${MONGO_URI}        ${FILTER}     
-
-    ${REPONSE}            POST On Session
-    ...                   BaseURI
-    ...                   ${PATH_POST}
-    ...                   json=${PAYLOAD}
-    ...                   headers=${HEADER}  
-    ...                   expected_status=any
-
+    
+    ### VERIFICAÇÕES
     Status Should Be        201      
     
-    # consulta no BD o valor da variável FILTER
-    ${RESULTS}     Find    ${MONGO_URI}    ${FILTER}
-
+    ${RESULTS}        Filter Partner By Name        Pizzas Papito   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
     # valida o (PK) 'id' da request é o mesmo no BD
-    Should Be Equal        ${REPONSE.json()}[partner_id]      ${RESULTS}[0][_id]  
+    Should Be Equal        ${RESPONSE.json()}[partner_id]      ${RESULTS}[_id]  
