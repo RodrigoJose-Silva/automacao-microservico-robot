@@ -16,7 +16,7 @@ ${PATH_POST}        /partners
 Post Partner 
     [Arguments]        ${payload}
 
-    ${RESPONSE}            POST On Session
+    ${RESPONSE}           POST On Session
     ...                   BaseURI
     ...                   ${PATH_POST}
     ...                   json=${PAYLOAD}

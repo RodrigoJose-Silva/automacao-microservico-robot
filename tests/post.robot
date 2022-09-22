@@ -1,28 +1,36 @@
 *** Settings ***
 Documentation          POST /partners
 
-Resource            ${EXECDIR}/resources/base.robot  # aponta a variável da aplicação e seu path
+Resource            ${EXECDIR}/resources/base.robot  # aponta a variável "${EXECDIR}" da aplicação e seu path de recursos
 
 *** Test Cases ***
 
 Shoud create a new partner
     Create Session        BaseURI        ${BASE_URL}        verify=false        disable_warnings=true
-
-    ${PAYLOAD}        Create Dictionary
-    ...               name=Pizzas Papito
-    ...               email=contato01@papito.com.br
-    ...               whatsapp=11999999999
-    ...               business=Restaurante
-    Remove Partner By Name        Pizzas Papito   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
-
+    
+    ${PAYLOAD_PARTNER}        Factory New Partner
+    Remove Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
    
     ### AÇÃO
-    ${RESPONSE}        Post Partner        ${PAYLOAD}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
-
+    ${RESPONSE}        Post Partner        ${PAYLOAD_PARTNER}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
     
     ### VERIFICAÇÕES
     Status Should Be        201      
-    
-    ${RESULTS}        Filter Partner By Name        Pizzas Papito   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
+
+    ${RESULTS}        Filter Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
     # valida o (PK) 'id' da request é o mesmo no BD
     Should Be Equal        ${RESPONSE.json()}[partner_id]      ${RESULTS}[_id]  
+
+Should return duplicate company name
+    [Tags]        bug
+    ${PAYLOAD_PARTNER}            Factory Dup Name
+    Remove Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
+    Post Partner        ${PAYLOAD_PARTNER}
+    
+    ### AÇÃO
+    ${RESPONSE}        Post Partner        ${PAYLOAD_PARTNER}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
+    
+    ### VERIFICAÇÕES
+    Status Should Be        409
+    Should Be Equal        ${RESPONSE.reason}                  Conflict
+    Should Be Equal        ${RESPONSE.json()}[message]         Duplicate company name
