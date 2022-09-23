@@ -17,3 +17,27 @@ def factory_dup_name():
         'business': 'Conveniência'
     }
     return partner
+
+def factory_partner_list():
+    p_list = [
+        {
+        'name': 'Mercearia do Joaquim',
+        'email': 'contato01@joaquim.com.br',
+        'whatsapp': '41999999999',
+        'business': 'Conveniência'
+        },
+        {
+        'name': 'Mercadinho do Baixin',
+        'email': 'contato01@baixin.com.br',
+        'whatsapp': '51777777777',
+        'business': 'Supermercado'
+        },
+        {
+        'name': 'Restaurante KiGostoso',
+        'email': 'contato01@kigostoso.com.br',
+        'whatsapp': '31666666666',
+        'business': 'Restaurante'
+        }
+    ]
+
+    return p_list

@@ -6,8 +6,8 @@ Resource            ${EXECDIR}/resources/base.robot  # aponta a variável "${EXE
 *** Test Cases ***
 
 Shoud create a new partner
-    Create Session        BaseURI        ${BASE_URL}        verify=false        disable_warnings=true
-    
+    Conect        API
+
     ${PAYLOAD_PARTNER}        Factory New Partner
     Remove Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
    
@@ -23,6 +23,8 @@ Shoud create a new partner
 
 Should return duplicate company name
     [Tags]        bug
+    Conect        API
+    
     ${PAYLOAD_PARTNER}            Factory Dup Name
     Remove Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
     Post Partner        ${PAYLOAD_PARTNER}

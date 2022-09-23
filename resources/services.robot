@@ -13,6 +13,10 @@ ${PATH_POST}        /partners
     ...             auth_password=ninja
 
 *** Keywords ***
+
+Conect
+    [Arguments]           ${API}
+    Create Session        BaseURI        ${BASE_URL}        verify=false        disable_warnings=true
 Post Partner 
     [Arguments]        ${payload}
 
@@ -20,6 +24,15 @@ Post Partner
     ...                   BaseURI
     ...                   ${PATH_POST}
     ...                   json=${PAYLOAD}
+    ...                   headers=${HEADER}  
+    ...                   expected_status=any
+    
+    [Return]              ${RESPONSE}
+
+GET Partners 
+    ${RESPONSE}           Get On Session
+    ...                   BaseURI
+    ...                   ${PATH_POST}
     ...                   headers=${HEADER}  
     ...                   expected_status=any
     
