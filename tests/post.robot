@@ -1,13 +1,13 @@
 *** Settings ***
 Documentation          POST /partners
 
-Resource            ${EXECDIR}/resources/base.robot  # aponta a variável "${EXECDIR}" da aplicação e seu path de recursos
+Resource            ../resources/base.robot  # aponta a variável "${EXECDIR}" da aplicação e seu path de recursos
+
+Suite Setup         Conectar API
 
 *** Test Cases ***
 
 Shoud create a new partner
-    Conect        API
-
     ${PAYLOAD_PARTNER}        Factory New Partner
     Remove Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
    
@@ -23,10 +23,8 @@ Shoud create a new partner
 
 Should return duplicate company name
     [Tags]        bug
-    Conect        API
-    
     ${PAYLOAD_PARTNER}            Factory Dup Name
-    Remove Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
+    # Remove Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
     Post Partner        ${PAYLOAD_PARTNER}
     
     ### AÇÃO
@@ -36,3 +34,7 @@ Should return duplicate company name
     Status Should Be        409
     Should Be Equal        ${RESPONSE.reason}                  Conflict
     Should Be Equal        ${RESPONSE.json()}[message]         Duplicate company name
+
+*** Keywords ***
+Conectar API
+    Conect        API
