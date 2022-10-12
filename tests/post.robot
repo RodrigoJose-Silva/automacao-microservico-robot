@@ -12,28 +12,26 @@ Shoud create a new partner
     Remove Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
    
     ### AÇÃO
-    ${RESPONSE}        Post Partner        ${PAYLOAD_PARTNER}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
+    ${response}        Post Partner        ${PAYLOAD_PARTNER}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
     
     ### VERIFICAÇÕES
     Status Should Be        201      
 
-    ${RESULTS}        Filter Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
-    # valida o (PK) 'id' da request é o mesmo no BD
-    Should Be Equal        ${RESPONSE.json()}[partner_id]      ${RESULTS}[_id]  
+    ${results}        Filter Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
+    Should Be Equal        ${response.json()}[partner_id]      ${results}[_id]   # valida o (PK) 'id' da request é o mesmo no BD
 
 Should return duplicate company name
     [Tags]        bug
     ${PAYLOAD_PARTNER}            Factory Dup Name
-    # Remove Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
     Post Partner        ${PAYLOAD_PARTNER}
     
     ### AÇÃO
-    ${RESPONSE}        Post Partner        ${PAYLOAD_PARTNER}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
+    ${response}        Post Partner        ${PAYLOAD_PARTNER}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
     
     ### VERIFICAÇÕES
     Status Should Be        409
-    Should Be Equal        ${RESPONSE.reason}                  Conflict
-    Should Be Equal        ${RESPONSE.json()}[message]         Duplicate company name
+    Should Be Equal        ${response.reason}                  Conflict
+    Should Be Equal        ${response.json()}[message]         Duplicate company name
 
 *** Keywords ***
 Conectar API

@@ -8,17 +8,17 @@ Suite Setup         Conect API and create partner list
 *** Test Cases ***
 Should return a partner list
     # AÇÃO
-    ${RESPOSNE}        GET Partners
+    ${response}        GET Partners
 
     # VALIDAÇÕES
     Status Should Be        200
     # pegando o tamando da lista retornada da request
-    ${SIZE}        Get Length        ${RESPOSNE.json()}
+    ${size}        Get Length        ${response.json()}
     # verificando que a lista não retornou vazia e/ou com valor maior do que validado
-    Should Be True        ${SIZE} > 0
+    Should Be True        ${size} > 0
 
 Should search partner by name
-    ${RESPONSE}        Search Partners        KiGostoso
+    ${response}        Search Partners        KiGostoso
     Status Should Be        200
 
 *** Keywords ***

@@ -6,34 +6,54 @@ Library                RequestsLibrary
 
 *** Variables ***
 ${BASE_URL}         http://localhost:3333
-${PATH_POST}        /partners
+${PATH_BASE}        /partners
 
 &{HEADER}           Content-Type=application/json    # passado como SUPER VARIÁVEL com o simbolo '&', onde o FW já interpreta como DICIONÁRIO
     ...             auth_user=qa
     ...             auth_password=ninja
 
 *** Keywords ***
-
 Conect
     [Arguments]           ${API}
     Create Session        BaseURI        ${BASE_URL}        verify=false        disable_warnings=true
 Post Partner 
     [Arguments]        ${payload}
 
-    ${RESPONSE}           POST On Session
+    ${response}           POST On Session
     ...                   BaseURI
-    ...                   ${PATH_POST}
+    ...                   ${PATH_BASE}
     ...                   json=${PAYLOAD}
     ...                   headers=${HEADER}  
     ...                   expected_status=any
-    
-    [Return]              ${RESPONSE}
+    [Return]              ${response}
 
 GET Partners 
-    ${RESPONSE}           Get On Session
+    ${response}           Get On Session
     ...                   BaseURI
-    ...                   ${PATH_POST}
+    ...                   ${PATH_BASE}
     ...                   headers=${HEADER}  
     ...                   expected_status=any
-    
-    [Return]              ${RESPONSE}
+    [Return]              ${response}
+
+Search Partners 
+    [Arguments]           ${name}
+
+    ${query}              Create Dictionary        name=${name}
+
+    ${response}           Get On Session
+    ...                   BaseURI
+    ...                   ${PATH_BASE}
+    ...                   params=${query}
+    ...                   headers=${HEADER}  
+    ...                   expected_status=any
+    [Return]              ${response}
+
+Put Enable Partner 
+    [Arguments]        ${partner_id}
+
+    ${response}           PUT On Session
+    ...                   BaseURI
+    ...                   ${PATH_BASE}/${partner_id}/enable
+    ...                   headers=${HEADER}  
+    ...                   expected_status=any
+    [Return]              ${response}

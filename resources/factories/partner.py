@@ -1,5 +1,14 @@
 # neste arquivo contém o PAYLOAD usado na automação
 
+def factory_enable_partner():
+    partner = {
+        'name': 'Posto do Papito',
+        'email': 'doceria@gmail.com',
+        'whatsapp': '11999999999',
+        'business': 'Conveniência'
+    }
+    return partner
+
 def factory_new_partner():
     partner = {
         'name': 'Pizzas Papito',
@@ -8,6 +17,16 @@ def factory_new_partner():
         'business': 'Restaurante'
     }
     return partner
+
+def factory_404_partner():
+    partner = {
+        'name': 'Frangão',
+        'email': 'contato01@frangao.com.br',
+        'whatsapp': '41999999999',
+        'business': 'Restaurante'
+    }
+    return partner
+
 
 def factory_dup_name():
     partner = {
