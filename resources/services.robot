@@ -57,3 +57,13 @@ Put Enable Partner
     ...                   headers=${HEADER}  
     ...                   expected_status=any
     [Return]              ${response}
+
+Put Disable Partner 
+    [Arguments]        ${partner_id}
+
+    ${response}           PUT On Session
+    ...                   BaseURI
+    ...                   ${PATH_BASE}/${partner_id}/disable
+    ...                   headers=${HEADER}  
+    ...                   expected_status=any
+    [Return]              ${response}

@@ -8,25 +8,26 @@ Suite Setup         Conectar API
 *** Test Cases ***
 
 Shoud create a new partner
-    ${PAYLOAD_PARTNER}        Factory New Partner
-    Remove Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
+    ${partner}        Factory New Partner
+    Remove Partner By Name        ${partner}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
    
     ### AÇÃO
-    ${response}        Post Partner        ${PAYLOAD_PARTNER}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
+    ${response}        Post Partner        ${partner}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
     
     ### VERIFICAÇÕES
     Status Should Be        201      
 
-    ${results}        Filter Partner By Name        ${PAYLOAD_PARTNER}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
+    ${results}        Filter Partner By Name        ${partner}[name]   # conforme o encapsulamento, está ação encontra-se no file 'database.robot'
     Should Be Equal        ${response.json()}[partner_id]      ${results}[_id]   # valida o (PK) 'id' da request é o mesmo no BD
 
 Should return duplicate company name
     [Tags]        bug
-    ${PAYLOAD_PARTNER}            Factory Dup Name
-    Post Partner        ${PAYLOAD_PARTNER}
+    ${partner}            Factory Dup Name
+    
+    Create a new partner        ${partner}
     
     ### AÇÃO
-    ${response}        Post Partner        ${PAYLOAD_PARTNER}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
+    ${response}        Post Partner        ${partner}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
     
     ### VERIFICAÇÕES
     Status Should Be        409

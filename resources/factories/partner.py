@@ -9,6 +9,15 @@ def factory_enable_partner():
     }
     return partner
 
+def factory_disable_partner():
+    partner = {
+        'name': 'Mercado noite',
+        'email': 'mnoite@gmail.com',
+        'whatsapp': '11999999999',
+        'business': 'Supermercado'
+    }
+    return partner
+
 def factory_new_partner():
     partner = {
         'name': 'Pizzas Papito',
@@ -26,7 +35,6 @@ def factory_404_partner():
         'business': 'Restaurante'
     }
     return partner
-
 
 def factory_dup_name():
     partner = {

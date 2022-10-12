@@ -9,21 +9,38 @@ Suite Setup         Conect API
 Should enable a partner
     ${partner}          Factory Enable Partner
 
-    Remove Partner By Name                  ${partner}[name]
-    ${response}         Post Partner        ${partner}
-    ${partner_id}       Set Variable        ${response.json()}[partner_id]
+    ${partner_id}       Create a new partner        ${partner}
 
     ${response}             Put Enable Partner        ${partner_id}
+    Status Should Be        200
+
+Should disable a partner
+    ${partner}          Factory Disable Partner
+
+    ${partner_id}             Create a new partner        ${partner}
+    Put Enable Partner        ${partner_id}
+
+    ${response}             Put Disable Partner        ${partner_id}
     Status Should Be        200
 
 Should return 404 on enable a partner
     ${partner}          Factory 404 Partner
 
-    ${response}         Post Partner        ${partner}
-    ${partner_id}       Set Variable        ${response.json()}[partner_id]
+    ${partner_id}       Create a new partner        ${partner}
+    
     Remove Partner By Name                  ${partner}[name]
     
     ${response}             Put Enable Partner        ${partner_id}
+    Status Should Be        404
+
+Should return 404 on disable a partner
+    ${partner}          Factory 404 Partner
+
+    ${partner_id}       Create a new partner        ${partner}
+    
+    Remove Partner By Name                  ${partner}[name]
+    
+    ${response}             Put Disable Partner        ${partner_id}
     Status Should Be        404
 
 *** Keywords ***

@@ -7,3 +7,4 @@ Library             factories/partner.py   # declarando o método do diretório 
 # Path resources files
 Resource            database.robot
 Resource            services.robot
+Resource            helpers.robot
