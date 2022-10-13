@@ -30,7 +30,7 @@ Should return duplicate company name
     ${response}        Post Partner        ${partner}  # conforme o encapsulamento, está ação encontra-se no file 'services.robot'
     
     ### VERIFICAÇÕES
-    Status Should Be        409
+    Status Should Be       409
     Should Be Equal        ${response.reason}                  Conflict
     Should Be Equal        ${response.json()}[message]         Duplicate company name
 

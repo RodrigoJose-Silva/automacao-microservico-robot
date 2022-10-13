@@ -67,3 +67,13 @@ Put Disable Partner
     ...                   headers=${HEADER}  
     ...                   expected_status=any
     [Return]              ${response}
+
+Delete Partner 
+    [Arguments]        ${partner_id}
+
+    ${response}           Delete On Session
+    ...                   BaseURI
+    ...                   ${PATH_BASE}/${partner_id}
+    ...                   headers=${HEADER}  
+    ...                   expected_status=any
+    [Return]              ${response}

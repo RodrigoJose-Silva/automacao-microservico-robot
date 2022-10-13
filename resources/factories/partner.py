@@ -9,6 +9,15 @@ def factory_enable_partner():
     }
     return partner
 
+def factory_remove_partner():
+    partner = {
+        'name': 'Adega do Papito',
+        'email': 'adega@gmail.com',
+        'whatsapp': '11999999999',
+        'business': 'Conveniência'
+    }
+    return partner
+
 def factory_disable_partner():
     partner = {
         'name': 'Mercado noite',
